@@ -8,7 +8,7 @@ public class MyService {
 
 	@GetMapping("/")
 	public String getMessage() {
-		return "Hello Welcome";
+		return "Hello World";
 	}
 	
 }
