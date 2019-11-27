@@ -30,7 +30,7 @@ jobs:
              fi
              set -x
              DOCKER_IMAGE_TAG=v${CIRCLE_BUILD_NUM}
-             echo "dbp:$DOCKER_IMAGE_TAG" > full_docker_image_name
+             echo "sample:$DOCKER_IMAGE_TAG" > full_docker_image_name
       - run:
           name: Maven Build
           command:  |
@@ -50,8 +50,8 @@ jobs:
                echo $GCLOUD_SERVICE_KEY_prod | base64 --decode --ignore-garbage > ${HOME}/app/gcloud-service-key.json
                gcloud auth activate-service-account --key-file ${HOME}/app/gcloud-service-key.json
                gcloud --quiet auth configure-docker
-               docker tag $FULL_DOCKER_IMAGE_NAME gcr.io/myspring/$FULL_DOCKER_IMAGE_NAME
-               docker push gcr.io/myspring/$FULL_DOCKER_IMAGE_NAME
+               docker tag $FULL_DOCKER_IMAGE_NAME gcr.io/$GOOGLE_PROJECT_ID_prod/$FULL_DOCKER_IMAGE_NAME
+               docker push gcr.io/$GOOGLE_PROJECT_ID_prod/$FULL_DOCKER_IMAGE_NAME
              fi
       - persist_to_workspace:
          root: .
@@ -74,7 +74,7 @@ jobs:
             gcloud --quiet config set project $GOOGLE_PROJECT_ID_prod
             gcloud --quiet config set compute/zone $GOOGLE_COMPUTE_ZONE_prod
             gcloud --quiet auth configure-docker
-            gcloud container clusters get-credentials mycluster --region asia-south1 --project airy-adapter-258403
+            gcloud container clusters get-credentials mycluster --region asia-south1 --project $GOOGLE_PROJECT_ID_prod
             kubectl delete service my-first-spring-application --ignore-not-found=true
             kubectl delete deployment my-first-spring-application --ignore-not-found=true
             FULL_DOCKER_IMAGE_NAME=$(cat workspace/full_docker_image_name)
