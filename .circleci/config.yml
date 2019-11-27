@@ -31,8 +31,13 @@ jobs:
              DOCKER_IMAGE_TAG=v${CIRCLE_BUILD_NUM}
              echo "dbp:$DOCKER_IMAGE_TAG" > full_docker_image_name
       - run:
+          name: Maven Build
+          command:  |
+            mvn dependency:go-offline # gets the project dependencies
+      - run:
           name: Build image
           command: |
+             mvn install
              FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
              docker build -t $FULL_DOCKER_IMAGE_NAME .
       - run:
