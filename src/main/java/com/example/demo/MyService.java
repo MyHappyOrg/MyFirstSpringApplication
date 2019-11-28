@@ -8,7 +8,8 @@ public class MyService {
 
 	@GetMapping("/")
 	public String getMessage() {
-		return "Hello World";
+		String json = "{status: 'UP',healthInfo: { status: 'UP', appName: 'My First Spring Application' }}";
+		return json;
 	}
 	
 }

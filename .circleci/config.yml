@@ -30,7 +30,7 @@ jobs:
              fi
              set -x
              DOCKER_IMAGE_TAG=v${CIRCLE_BUILD_NUM}
-             echo "sample:$DOCKER_IMAGE_TAG" > full_docker_image_name
+             echo "spring:$DOCKER_IMAGE_TAG" > full_docker_image_name
       - run:
           name: Maven Build
           command:  |
@@ -78,7 +78,7 @@ jobs:
             kubectl delete service my-first-spring-application --ignore-not-found=true
             kubectl delete deployment my-first-spring-application --ignore-not-found=true
             FULL_DOCKER_IMAGE_NAME=$(cat workspace/full_docker_image_name)
-            DEV_KUBE_CONFIG=$(cat kube-deploy-prod.yml | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
+            DEV_KUBE_CONFIG=$(cat deploy/kube-deploy-prod.yml | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
             echo "$DEV_KUBE_CONFIG" | kubectl apply -f -
 workflows:
   version: 2
