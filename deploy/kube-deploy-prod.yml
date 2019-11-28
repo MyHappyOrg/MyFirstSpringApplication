@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: my-spring-application
+spec:
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       app: my-spring-application
+   spec:
+     containers:
+     - name: my-spring-application
+       image: gcr.io/airy-adapter-258403/DOCKER_IMAGE_NAME
+       ports:
+         - containerPort: 3001
